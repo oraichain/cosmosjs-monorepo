@@ -3,10 +3,11 @@ export type BroadCastMode = 'BROADCAST_MODE_UNSPECIFIED' | 'BROADCAST_MODE_BLOCK
 export type RawInput = {
   contractAddr: string,
   message: Buffer,
+  sentFunds?: any[],
 }
 declare class OraiwasmJs extends Cosmos {
   constructor(url: any, chainId: any);
-  execute(params: { childKey: any, rawInputs: RawInput[], fees?: number | any[], gasLimits?: number | string, gasMultiplier?: number, timeoutHeight?: number, timeoutIntervalCheck?: number, sentFunds?: any[], broadcastMode?: string }): Promise<any>;
+  execute(params: { childKey: any, rawInputs: RawInput[], fees?: number | any[], gasLimits?: number | string, gasMultiplier?: number, timeoutHeight?: number, timeoutIntervalCheck?: number, broadcastMode?: string }): Promise<any>;
 }
 
 declare namespace OraiwasmJs { }

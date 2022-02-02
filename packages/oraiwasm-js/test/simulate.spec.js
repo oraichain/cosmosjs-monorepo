@@ -11,9 +11,13 @@ describe('simulate', () => {
   it('should return gas estimation correctly', async () => {
     const childKey = cosmos.getChildKey(process.env.SEND_MNEMONIC);
     const contractAddr = "orai1ceelzytg6nuu5ajqaakf8h5mnv0le0qkz9vsk0";
+    const rawInputs = [{
+      contractAddr,
+      message: Buffer.from(JSON.stringify({ ping: {} })),
+    }]
 
     try {
-      const response = await cosmos.execute({ childKey, contractAddr, rawMessages: [Buffer.from(JSON.stringify({ ping: {} }))], gasLimits: 'auto', fees: 0.0025 });
+      const response = await cosmos.execute({ childKey, rawInputs, gasLimits: 'auto', fees: 0.0025 });
       console.log(response);
     } catch (ex) {
       console.log(ex);

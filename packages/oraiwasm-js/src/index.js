@@ -6,9 +6,9 @@ class OraiwasmJs extends Cosmos {
     this.message = Cosmos.message;
   }
 
-  getHandleMessage(contract, msg, sender, amount) {
+  getHandleMessage(contract, msg, sender, sentFunds) {
     const { message } = this;
-    const sent_funds = amount ? [{ denom: this.bech32MainPrefix, amount }] : null;
+    const sent_funds = sentFunds ? sentFunds : null;
     const msgExecute = new message.cosmwasm.wasm.v1beta1.MsgExecuteContract({
       contract,
       msg,
@@ -22,10 +22,10 @@ class OraiwasmJs extends Cosmos {
     });
   };
 
-  getHandleMessageSimulate(contract, msg, sender, amount) {
+  getHandleMessageSimulate(contract, msg, sender, sentFunds) {
     // because when broadcasting the transaction, the msg is a buffer, but when simulating, we need an object type.
     msg = JSON.parse(msg.toString());
-    const sent_funds = amount ? [{ denom: this.bech32MainPrefix, amount }] : null;
+    const sent_funds = sentFunds ? sentFunds : null;
     const msgExecute = new this.message.cosmwasm.wasm.v1beta1.MsgExecuteContract({
       contract,
       msg,
@@ -45,17 +45,17 @@ class OraiwasmJs extends Cosmos {
     });
   }
 
-  async execute({ childKey, rawInputs, fees, gasLimits, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, sentFunds = undefined, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
+  async execute({ childKey, rawInputs, fees, gasLimits, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
     const address = this.getAddress(childKey);
     let msgs = [];
     for (let input of rawInputs) {
-      msgs.push(this.getHandleMessage(input.contractAddr, input.message, address, sentFunds));
+      msgs.push(this.getHandleMessage(input.contractAddr, input.message, address, input.sentFunds));
     }
     // if gas limit is auto, then we simulate to collect real gas limits
     if (gasLimits === 'auto') {
       let simulateMsgs = [];
       for (let input of rawInputs) {
-        simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, address, sentFunds));
+        simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, address, input.sentFunds));
       }
       let txBody = this.getTxBody(simulateMsgs, timeoutHeight);
       let result = await this.simulate(childKey.publicKey, txBody);
