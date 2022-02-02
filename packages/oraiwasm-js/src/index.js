@@ -45,17 +45,17 @@ class OraiwasmJs extends Cosmos {
     });
   }
 
-  async execute({ childKey, contractAddr, rawMessages, fees, gasLimits, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, sentFunds = undefined, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
+  async execute({ childKey, rawInputs, fees, gasLimits, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, sentFunds = undefined, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
     const address = this.getAddress(childKey);
     let msgs = [];
-    for (let message of rawMessages) {
-      msgs.push(this.getHandleMessage(contractAddr, message, address, sentFunds));
+    for (let input of rawInputs) {
+      msgs.push(this.getHandleMessage(input.contractAddr, input.message, address, sentFunds));
     }
     // if gas limit is auto, then we simulate to collect real gas limits
     if (gasLimits === 'auto') {
       let simulateMsgs = [];
-      for (let message of rawMessages) {
-        simulateMsgs.push(this.getHandleMessageSimulate(contractAddr, message, address, sentFunds));
+      for (let input of rawInputs) {
+        simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, address, sentFunds));
       }
       let txBody = this.getTxBody(simulateMsgs, timeoutHeight);
       let result = await this.simulate(childKey.publicKey, txBody);
