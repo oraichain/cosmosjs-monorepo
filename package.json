@@ -1,0 +1,25 @@
+{
+  "name": "@oraichain/cosmosjs-monorepo",
+  "licenses": [],
+  "version": "0.0.1",
+  "description": "A JavasSript Open Source Library for Oraichain and possibly many other Cosmos network blockchains as well",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oraichain/cosmosjs-momorepo.git"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "keywords": [
+    "oraichain",
+    "cosmosjs",
+    "cosmos",
+    "tendermint",
+    "javascript",
+    "stargate",
+    "ibc",
+    "protobuf"
+  ],
+  "author": "Oraichain",
+  "license": "MIT"
+}
