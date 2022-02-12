@@ -1,0 +1,7 @@
+/src/
+/test/
+/node_modules/
+.*
+.all-contributorsrc
+webpack.config.js
+yarn.lock
