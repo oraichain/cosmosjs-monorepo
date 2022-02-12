@@ -38,14 +38,15 @@ class OraiwasmJs extends Cosmos {
     return { ...msgAny, ...msgExecute };
   };
 
-  getTxBody(messages, timeout_height) {
+  getTxBody(messages, timeout_height, memo) {
     return new this.message.cosmos.tx.v1beta1.TxBody({
       messages,
-      timeout_height
+      timeout_height,
+      memo
     });
   }
 
-  async execute({ childKey, rawInputs, fees, gasLimits, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
+  async execute({ childKey, rawInputs, fees, gasLimits, memo = undefined, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
     const address = this.getAddress(childKey);
     let msgs = [];
     for (let input of rawInputs) {
@@ -57,12 +58,12 @@ class OraiwasmJs extends Cosmos {
       for (let input of rawInputs) {
         simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, address, input.sentFunds));
       }
-      let txBody = this.getTxBody(simulateMsgs, timeoutHeight);
+      let txBody = this.getTxBody(simulateMsgs, timeoutHeight, memo);
       let result = await this.simulate(childKey.publicKey, txBody);
       // if simulate returns ok => set new gas limit to gas used
       if (result && result.gas_info && result.gas_info.gas_used) gasLimits = Math.round(parseInt(result.gas_info.gas_used) * gasMultiplier);
     }
-    let txBody = this.getTxBody(msgs, timeoutHeight);
+    let txBody = this.getTxBody(msgs, timeoutHeight, memo);
     return this.submit(childKey, txBody, broadcastMode, fees, gasLimits, timeoutHeight, timeoutIntervalCheck);
   }
 }

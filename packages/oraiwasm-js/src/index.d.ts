@@ -7,7 +7,7 @@ export type RawInput = {
 }
 declare class OraiwasmJs extends Cosmos {
   constructor(url: any, chainId: any);
-  execute(params: { childKey: any, rawInputs: RawInput[], fees?: number | any[], gasLimits?: number | string, gasMultiplier?: number, timeoutHeight?: number, timeoutIntervalCheck?: number, broadcastMode?: string }): Promise<any>;
+  execute(params: { childKey: any, rawInputs: RawInput[], fees?: number | any[], gasLimits?: number | string, memo?: string | undefined, gasMultiplier?: number, timeoutHeight?: number, timeoutIntervalCheck?: number, broadcastMode?: string }): Promise<any>;
 }
 
 declare namespace OraiwasmJs { }
