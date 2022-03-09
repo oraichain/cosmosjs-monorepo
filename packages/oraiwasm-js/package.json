@@ -1,7 +1,7 @@
 {
   "name": "@oraichain/oraiwasm-js",
   "licenses": [],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A JavasSript Open Source Library for Oraichain and possibly many other Cosmos network blockchains as well",
   "main": "dist/index.js",
   "engines": {
@@ -24,7 +24,7 @@
   "author": "Oraichain",
   "license": "MIT",
   "dependencies": {
-    "@oraichain/cosmosjs": "0.0.84",
+    "@oraichain/cosmosjs": "0.0.85",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {

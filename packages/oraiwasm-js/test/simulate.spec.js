@@ -4,7 +4,7 @@ import OraiwasmJs from '../src';
 
 dotenv.config();
 
-const cosmos = new OraiwasmJs('https://testnet.lcd.orai.io', 'Oraichain-testnet');
+const cosmos = new OraiwasmJs('http://3.143.254.222:1317', 'Oraichain-testnet');
 cosmos.setBech32MainPrefix('orai');
 
 describe('simulate', () => {

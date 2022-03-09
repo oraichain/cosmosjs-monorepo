@@ -59,9 +59,18 @@ class OraiwasmJs extends Cosmos {
         simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, address, input.sentFunds));
       }
       let txBody = this.getTxBody(simulateMsgs, timeoutHeight, memo);
-      let result = await this.simulate(childKey.publicKey, txBody);
-      // if simulate returns ok => set new gas limit to gas used
-      if (result && result.gas_info && result.gas_info.gas_used) gasLimits = Math.round(parseInt(result.gas_info.gas_used) * gasMultiplier);
+      try {
+        let result = await this.simulate(childKey.publicKey, txBody);
+        // if simulate returns ok => set new gas limit to gas used
+        if (result && result.gas_info && result.gas_info.gas_used) gasLimits = Math.round(parseInt(result.gas_info.gas_used) * gasMultiplier);
+        else {
+          let resultStr = (result === 'string' || result instanceof String) ? result : JSON.stringify(result);
+          // error case, should throw error because if forcing a specific gas limit, the tx could fail because not enough gas before getting the true error
+          throw { status: 500, message: result.message ? result.message : resultStr }
+        }
+      } catch (error) {
+        throw error;
+      }
     }
     let txBody = this.getTxBody(msgs, timeoutHeight, memo);
     return this.submit(childKey, txBody, broadcastMode, fees, gasLimits, timeoutHeight, timeoutIntervalCheck);
