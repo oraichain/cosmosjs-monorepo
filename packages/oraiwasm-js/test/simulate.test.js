@@ -10,7 +10,7 @@ cosmos.setBech32MainPrefix('orai');
 describe('simulate', () => {
   it('should return gas estimation correctly', async () => {
     const childKey = cosmos.getChildKey(process.env.SEND_MNEMONIC);
-    const contractAddr = "orai1ceelzytg6nuu5ajqaakf8h5mnv0le0qkz9vsk0";
+    const contractAddr = "orai1nm7u5pmsq8439j2rnffxgwrqe2mhqa902tjagd";
     const rawInput = {
       contractAddr,
       message: Buffer.from(JSON.stringify({ ping: {} })),
@@ -19,11 +19,11 @@ describe('simulate', () => {
     let simulateMsgs = [];
     simulateMsgs.push(cosmos.getHandleMessageSimulate(rawInput.contractAddr, rawInput.message, cosmos.getAddress(childKey), null));
 
-    try {
-      const response = await cosmos.simulate(childKey.publicKey, cosmos.getTxBody(simulateMsgs, undefined, undefined));
-      console.log("simulate response: ", response);
-    } catch (ex) {
-      console.log(ex);
-    }
+    // try {
+    //   const response = await cosmos.simulate(childKey.publicKey, cosmos.getTxBody(simulateMsgs, undefined, undefined));
+    //   console.log("simulate response: ", response);
+    // } catch (ex) {
+    //   console.log(ex);
+    // }
   });
 });

@@ -73,7 +73,7 @@ class OraiwasmJs extends Cosmos {
       }
     }
     let txBody = this.getTxBody(msgs, timeoutHeight, memo);
-    return this.submit(childKey, txBody, broadcastMode, fees, gasLimits, timeoutHeight, timeoutIntervalCheck);
+    return this.submit(childKey, txBody, broadcastMode, fees, gasLimits, gasMultiplier, timeoutHeight, timeoutIntervalCheck);
   }
 }
 
