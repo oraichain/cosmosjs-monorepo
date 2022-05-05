@@ -23,19 +23,8 @@ class OraiwasmJs extends Cosmos {
   };
 
   getHandleMessageSimulate(contract, msg, sender, sentFunds) {
-    // because when broadcasting the transaction, the msg is a buffer, but when simulating, we need an object type.
-    msg = JSON.parse(msg.toString());
-    const sent_funds = sentFunds ? sentFunds : null;
-    const msgExecute = new this.message.cosmwasm.wasm.v1beta1.MsgExecuteContract({
-      contract,
-      msg,
-      sender,
-      sent_funds
-    });
-    const msgAny = {
-      "@type": '/cosmwasm.wasm.v1beta1.MsgExecuteContract',
-    }
-    return { ...msgAny, ...msgExecute };
+    // when broadcasting the transaction, the msg is a buffer, but when simulating, we need an object type => from message buffer to json string then parse to object.
+    return { "@type": '/cosmwasm.wasm.v1beta1.MsgExecuteContract', contract, msg: JSON.parse(msg.toString()), sender, sent_funds: sentFunds ? sentFunds : null };
   };
 
   getTxBody(messages, timeout_height, memo) {
@@ -49,15 +38,11 @@ class OraiwasmJs extends Cosmos {
   async execute({ childKey, rawInputs, fees, gasLimits, memo = undefined, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
     const address = this.getAddress(childKey);
     let msgs = [];
-    for (let input of rawInputs) {
-      msgs.push(this.getHandleMessage(input.contractAddr, input.message, address, input.sentFunds));
-    }
+    rawInputs.map(input => msgs.push(this.getHandleMessage(input.contractAddr, input.message, address, input.sentFunds)))
     // if gas limit is auto, then we simulate to collect real gas limits
     if (gasLimits === 'auto') {
       let simulateMsgs = [];
-      for (let input of rawInputs) {
-        simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, address, input.sentFunds));
-      }
+      rawInputs.map(input => simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, address, input.sentFunds)))
       let txBody = this.getTxBody(simulateMsgs, timeoutHeight, memo);
       try {
         let result = await this.simulate(childKey.publicKey, txBody);
