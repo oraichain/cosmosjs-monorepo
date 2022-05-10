@@ -24,7 +24,8 @@
   "author": "Oraichain",
   "license": "MIT",
   "dependencies": {
-    "@oraichain/cosmosjs": "0.0.85",
+    "@oraichain/cosmosjs": "0.0.89",
+    "@cosmjs/proto-signing": "^0.28.4",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {

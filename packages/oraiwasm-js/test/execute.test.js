@@ -19,7 +19,7 @@ describe('execute', () => {
     const timeoutHeight = parseInt(block.block.header.height) + 100;
 
     try {
-      const response = await cosmos.execute({ childKey, rawInputs, gasLimits: 'auto', fees: 0, timeoutHeight: timeoutHeight, timeoutIntervalCheck: 5000 });
+      const response = await cosmos.execute({ signerOrChild: childKey, rawInputs, gasLimits: 'auto', fees: 0, timeoutHeight: timeoutHeight, timeoutIntervalCheck: 5000 });
       console.log(response);
     } catch (ex) {
       console.log(ex);
