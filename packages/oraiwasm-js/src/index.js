@@ -1,4 +1,4 @@
-import Cosmos from '@oraichain/cosmosjs';
+import Cosmos, { BroadCastMode } from '@oraichain/cosmosjs';
 
 class OraiwasmJs extends Cosmos {
   constructor(url, chainId) {
@@ -27,20 +27,12 @@ class OraiwasmJs extends Cosmos {
     return { "@type": '/cosmwasm.wasm.v1beta1.MsgExecuteContract', contract, msg: JSON.parse(msg.toString()), sender, sent_funds: sentFunds ? sentFunds : null };
   };
 
-  getTxBody(messages, timeout_height, memo) {
-    return new this.message.cosmos.tx.v1beta1.TxBody({
-      messages,
-      timeout_height,
-      memo
-    });
-  }
-
   async handleMeasureGas(gasLimits, rawInputs, sender, publicKey, gasMultiplier) {
     let finalGas = gasLimits;
     if (finalGas === 'auto') {
       let simulateMsgs = [];
       rawInputs.map(input => simulateMsgs.push(this.getHandleMessageSimulate(input.contractAddr, input.message, sender, input.sentFunds)))
-      let txBody = this.getTxBody(simulateMsgs);
+      let txBody = this.constructTxBody({ messages: simulateMsgs });
       try {
         let result = await this.simulate(publicKey, txBody);
         // if simulate returns ok => set new gas limit to gas used
@@ -63,7 +55,7 @@ class OraiwasmJs extends Cosmos {
     rawInputs.map(input => msgs.push(this.getHandleMessage(input.contractAddr, input.message, address, input.sentFunds)))
     // if gas limit is auto, then we simulate to collect real gas limits
     const finalGas = await this.handleMeasureGas(gasLimits, rawInputs, address, pubkey, gasMultiplier);
-    let txBody = this.getTxBody(msgs, timeoutHeight, memo);
+    let txBody = this.constructTxBody({ messages: msgs, timeout_height: timeoutHeight, memo });
     return this.submit(signerOrChild, txBody, broadcastMode, fees, finalGas, gasMultiplier, timeoutHeight, timeoutIntervalCheck);
   }
 
