@@ -1,4 +1,4 @@
-import Cosmos, { BroadCastMode } from '@oraichain/cosmosjs';
+import Cosmos, { Wallet, WalletFactory, BroadCastMode } from '@oraichain/cosmosjs';
 
 class OraiwasmJs extends Cosmos {
   constructor(url, chainId) {
@@ -50,7 +50,7 @@ class OraiwasmJs extends Cosmos {
   }
 
   async execute({ signerOrChild, rawInputs, fees, gasLimits, memo = undefined, gasMultiplier = 1.3, timeoutHeight, timeoutIntervalCheck, broadcastMode = 'BROADCAST_MODE_SYNC' }) {
-    const { address, pubkey } = await this.walletFactory(signerOrChild);
+    const { address, pubkey } = await this.getWalletInfoFromSignerOrChild(signerOrChild);
     let msgs = [];
     rawInputs.map(input => msgs.push(this.getHandleMessage(input.contractAddr, input.message, address, input.sentFunds)))
     // if gas limit is auto, then we simulate to collect real gas limits
