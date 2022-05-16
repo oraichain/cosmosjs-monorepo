@@ -1,0 +1,42 @@
+{
+  "name": "@oraichain/cosmos-messages",
+  "licenses": [],
+  "version": "0.0.1",
+  "description": "A JavasSript Open Source Library for Oraichain and possibly many other Cosmos network blockchains as well",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "keywords": [
+    "oraichain",
+    "cosmosjs",
+    "cosmos",
+    "tendermint",
+    "javascript",
+    "stargate",
+    "ibc",
+    "protobuf"
+  ],
+  "scripts": {
+    "test": "mocha -r @babel/register test",
+    "build": "webpack --mode production"
+  },
+  "author": "Oraichain",
+  "license": "MIT",
+  "dependencies": {
+    "@oraichain/cosmosjs": "0.0.94"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.8",
+    "@babel/plugin-transform-runtime": "^7.16.10",
+    "@babel/preset-env": "^7.13.8",
+    "@babel/register": "^7.13.8",
+    "babel-loader": "^8.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "jest": "^28.1.0",
+    "mocha": "^7.1.1",
+    "webpack": "^4.39",
+    "webpack-cli": "^3.3",
+    "dotenv": "^8.2.0"
+  }
+}
