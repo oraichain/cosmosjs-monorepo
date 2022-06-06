@@ -14,6 +14,7 @@ describe('execute', () => {
     const rawInputs = [{
       contractAddr,
       message: Buffer.from(JSON.stringify({ ping: {} })),
+      sentFunds: [{ denom: 'orai', amount: '1' }]
     }]
     const block = await cosmos.get('/blocks/latest');
     const timeoutHeight = parseInt(block.block.header.height) + 100;
