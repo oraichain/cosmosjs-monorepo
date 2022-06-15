@@ -110,6 +110,23 @@ class CosmosMessages {
     });
   };
 
+  static getMsgCreateValidator = (description, commission, delegator_address, min_self_delegation, pubkey, validator_address, value) => {
+    const msgCreateValidator =  new Cosmos.message.cosmos.staking.v1beta1.MsgCreateValidator({
+      description,
+      commission,
+      delegator_address,
+      min_self_delegation,
+      pubkey,
+      validator_address,
+      value,
+    });
+
+    return new Cosmos.message.google.protobuf.Any({
+      type_url: '/cosmos.staking.v1beta1.MsgCreateValidator',
+      value: Cosmos.message.cosmos.staking.v1beta1.MsgCreateValidator.encode(msgCreateValidator).finish(),
+    });
+  };
+
   static getMsgParameterChangeProposal = (proposer, initial_deposit, { title, description, changes }) => {
     const msgChangeProposal = new Cosmos.message.cosmos.params.v1beta1.ParameterChangeProposal({ title, description, changes });
 
