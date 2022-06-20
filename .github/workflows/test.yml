@@ -6,7 +6,11 @@ name: publish_package
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
+    paths:
+      - packages/cosmosjs-messages/**
     branches: [ test/cicd ]
+    branches-ignore:
+      - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
