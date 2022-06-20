@@ -79,6 +79,6 @@ jobs:
         with:
           node-version: '12.x'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm publish
+      - run: npm publish packages/cosmosjs-messages/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
