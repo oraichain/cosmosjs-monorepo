@@ -2,6 +2,7 @@
   "name": "@oraichain/cosmosjs-monorepo",
   "licenses": [],
   "version": "0.0.1",
+  "private": true,
   "description": "A JavasSript Open Source Library for Oraichain and possibly many other Cosmos network blockchains as well",
   "repository": {
     "type": "git",
@@ -9,6 +10,11 @@
   },
   "engines": {
     "node": ">=10.0.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
   },
   "keywords": [
     "oraichain",
