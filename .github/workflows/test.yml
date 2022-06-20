@@ -45,7 +45,7 @@ jobs:
       - uses: marceloprado/has-changed-path@v1
         id: cosmosjs-messages-id
         with:
-          paths: packages/cosmosjs-messages
+          paths: packages/cosmosjs-messages/**
 
   build-cosmosjs-messages:
     needs: [yarn, cosmosjs-messages]
