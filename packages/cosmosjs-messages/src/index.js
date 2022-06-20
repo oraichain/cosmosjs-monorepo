@@ -111,7 +111,7 @@ class CosmosMessages {
   };
 
   static getMsgCreateValidator = (description, commission, delegator_address, min_self_delegation, pubkey, validator_address, value) => {
-    const msgCreateValidator =  new Cosmos.message.cosmos.staking.v1beta1.MsgCreateValidator({
+    const msgCreateValidator = new Cosmos.message.cosmos.staking.v1beta1.MsgCreateValidator({
       description,
       commission,
       delegator_address,
@@ -166,6 +166,8 @@ class CosmosMessages {
           return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_ABSTAIN
         case "No":
           return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_NO
+        case "FOOBAR":
+          return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_UNSPECIFIED
         case "No with veto":
           return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_NO_WITH_VETO
         default:
