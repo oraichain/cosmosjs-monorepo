@@ -1,25 +1,56 @@
-# This is a basic workflow to help you get started with Actions
+name: CI/CD Monorepo
 
-name: publish_package
-
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    paths:
-      - packages/cosmosjs-messages/**
-    branches: [ test/cicd ]
-    branches-ignore:
-      - master
+    branches:
+      - test/cicd
+    paths-ignore:
+      - '**.md'
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    runs-on: ubuntu-20.04
+  yarn:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.16.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        name: yarn-cache
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn
+      - name: Yarn
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile --prefer-offline --non-interactive --ignore-scripts
+
+  cosmosjs-messages:
+    runs-on: ubuntu-latest
+
+    outputs:
+      has-changed: ${{ steps.cosmosjs-messages-id.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - uses: marceloprado/has-changed-path@v1
+        id: cosmosjs-messages-id
+        with:
+          paths: packages/cosmosjs-messages
+
+  build-cosmosjs-messages:
+    needs: [yarn, cosmosjs-messages]
+    if: needs.cosmosjs-messages-id.outputs.has-changed == 'true'
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [14.16.0]
@@ -51,9 +82,9 @@ jobs:
     - name: Build Production
       run: yarn build
     - name: Copy typescript files into the bundle
-      run: cp $PWD/src/index.d.ts dist/
+      run: cp -r $PWD/src/messages dist/ && cp $PWD/src/index.d.ts dist/ && rm $PWD/dist/messages/proto.js
     - uses: actions/setup-node@v2
-      with: 
+      with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
     - run: npm publish
