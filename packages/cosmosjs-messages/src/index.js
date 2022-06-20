@@ -166,7 +166,7 @@ class CosmosMessages {
           return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_ABSTAIN
         case "No":
           return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_NO
-        case "No":
+        case "Foo":
           return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_NO
         case "No with veto":
           return Cosmos.message.cosmos.gov.v1beta1.VoteOption.VOTE_OPTION_NO_WITH_VETO

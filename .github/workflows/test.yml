@@ -74,7 +74,7 @@ jobs:
       - name: Build Production
         run: yarn workspace @oraichain/cosmos-messages build
       - name: Copy typescript files into the bundle
-        run: cp -r $PWD/src/messages dist/ && cp $PWD/src/index.d.ts dist/ && rm $PWD/dist/messages/proto.js
+        run: cp packages/cosmosjs-messages/src/index.d.ts dist/
       - uses: actions/setup-node@v2
         with:
           node-version: '12.x'
