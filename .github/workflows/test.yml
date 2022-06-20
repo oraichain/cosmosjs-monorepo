@@ -71,14 +71,14 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn
-    - name: Build Production
-      run: yarn workspace @oraichain/cosmosjs-messages build
-    - name: Copy typescript files into the bundle
-      run: cp -r $PWD/src/messages dist/ && cp $PWD/src/index.d.ts dist/ && rm $PWD/dist/messages/proto.js
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '12.x'
-        registry-url: 'https://registry.npmjs.org'
-    - run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Build Production
+        run: yarn workspace @oraichain/cosmosjs-messages build
+      - name: Copy typescript files into the bundle
+        run: cp -r $PWD/src/messages dist/ && cp $PWD/src/index.d.ts dist/ && rm $PWD/dist/messages/proto.js
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
