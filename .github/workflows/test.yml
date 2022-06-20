@@ -10,7 +10,7 @@ on:
 jobs:
 
   yarn:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         node-version: [14.16.0]
@@ -35,7 +35,7 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline --non-interactive --ignore-scripts
 
   cosmosjs-messages:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     outputs:
       has-changed: ${{ steps.cosmosjs-messages-id.outputs.changed }}
@@ -51,7 +51,7 @@ jobs:
   build-cosmosjs-messages:
     needs: [yarn, cosmosjs-messages]
     if: needs.cosmosjs-messages.outputs.has-changed == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         node-version: [14.16.0]
