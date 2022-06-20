@@ -72,7 +72,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn
       - name: Build Production
-        run: yarn workspace @oraichain/cosmosjs-messages build
+        run: yarn workspace @oraichain/cosmos-messages build
       - name: Copy typescript files into the bundle
         run: cp -r $PWD/src/messages dist/ && cp $PWD/src/index.d.ts dist/ && rm $PWD/dist/messages/proto.js
       - uses: actions/setup-node@v2
