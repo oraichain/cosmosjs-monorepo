@@ -3,7 +3,7 @@ name: CI/CD Monorepo
 on:
   push:
     branches:
-      - test/cicd
+      - master
     paths-ignore:
       - '**.md'
 
