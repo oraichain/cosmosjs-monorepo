@@ -27,10 +27,6 @@ class OraiwasmJs extends Cosmos {
     return { "@type": '/cosmwasm.wasm.v1beta1.MsgExecuteContract', contract, msg: JSON.parse(msg.toString()), sender, sent_funds: sentFunds ? sentFunds : null };
   };
 
-  async foobar() {
-
-  }
-
   async handleMeasureGas(gasLimits, rawInputs, sender, publicKey, gasMultiplier) {
     let finalGas = gasLimits;
     if (finalGas === 'auto') {
