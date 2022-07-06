@@ -72,7 +72,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn
       - name: Build Production
-        run: yarn workspace @oraichain/cosmos-messages build
+        working-directory: ./packages/oraiwasm-js
+        run: yarn build
       - name: Copy typescript files into the bundle
         run: cp packages/cosmosjs-messages/src/index.d.ts packages/cosmosjs-messages/dist/
       - uses: actions/setup-node@v2
@@ -121,7 +122,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn
       - name: Build Production
-        run: yarn workspace @oraichain/oraiwasm-js build
+        working-directory: ./packages/oraiwasm-js
+        run: yarn build
       - name: Copy typescript files into the bundle
         run: cp packages/oraiwasm-js/src/index.d.ts packages/oraiwasm-js/dist/
       - uses: actions/setup-node@v2
