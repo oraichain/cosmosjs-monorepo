@@ -1,4 +1,4 @@
-import Cosmos, { Wallet, WalletFactory, BroadCastMode } from '@oraichain/cosmosjs';
+import Cosmos from '@oraichain/cosmosjs';
 
 class OraiwasmJs extends Cosmos {
   constructor(url, chainId) {
@@ -60,7 +60,7 @@ class OraiwasmJs extends Cosmos {
     // if gas limit is auto, then we simulate to collect real gas limits
     const finalGas = await this.handleMeasureGas(gasLimits, rawInputs, address, pubkey, gasMultiplier);
     let txBody = this.constructTxBody({ messages: msgs, timeout_height: timeoutHeight, memo });
-    return this.submit(signerOrChild, txBody, broadcastMode, fees, finalGas, gasMultiplier, timeoutHeight, timeoutIntervalCheck);
+    return this.submit(signerOrChild, txBody, broadcastMode, fees, finalGas, timeoutIntervalCheck);
   }
 
 }

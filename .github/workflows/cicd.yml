@@ -1,0 +1,133 @@
+name: CI/CD Monorepo
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+
+jobs:
+
+  yarn:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [14.16.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        name: yarn-cache
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn
+      - name: Yarn
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile --prefer-offline --non-interactive --ignore-scripts
+
+  cosmosjs-messages:
+    runs-on: ubuntu-20.04
+
+    outputs:
+      has-changed: ${{ steps.cosmosjs-messages-id.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - uses: marceloprado/has-changed-path@v1
+        id: cosmosjs-messages-id
+        with:
+          paths: packages/cosmosjs-messages/**
+
+  build-cosmosjs-messages:
+    needs: [yarn, cosmosjs-messages]
+    if: needs.cosmosjs-messages.outputs.has-changed == 'true'
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [14.16.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        name: yarn-cache
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn
+      - name: Build Production
+        run: yarn workspace @oraichain/cosmos-messages build
+      - name: Copy typescript files into the bundle
+        run: cp packages/cosmosjs-messages/src/index.d.ts packages/cosmosjs-messages/dist/
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm publish packages/cosmosjs-messages/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  oraiwasm-js:
+    runs-on: ubuntu-20.04
+
+    outputs:
+      has-changed: ${{ steps.oraiwasm-js-id.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - uses: marceloprado/has-changed-path@v1
+        id: oraiwasm-js-id
+        with:
+          paths: packages/oraiwasm-js/**
+
+  build-oraiwasm-js:
+    needs: [yarn, oraiwasm-js]
+    if: needs.oraiwasm-js.outputs.has-changed == 'true'
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [14.16.0]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      - uses: actions/cache@v2
+        name: yarn-cache
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn
+      - name: Build Production
+        run: yarn workspace @oraichain/oraiwasm-js build
+      - name: Copy typescript files into the bundle
+        run: cp packages/oraiwasm-js/src/index.d.ts packages/oraiwasm-js/dist/
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm publish packages/oraiwasm-js/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
