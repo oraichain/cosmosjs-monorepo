@@ -7,10 +7,10 @@ dotenv.config();
 const cosmos = new Cosmos('http://testnet-lcd.orai.io', 'Oraichain-testnet');
 cosmos.setBech32MainPrefix('orai');
 
-describe('deposit proposal with cosmos-messages correctly', () => {
-  it('should deposit proposal correctly', async () => {
+describe('vote proposal with cosmos-messages correctly', () => {
+  it('should vote proposal correctly', async () => {
     const childKey = cosmos.getChildKey(process.env.SEND_MNEMONIC);
-    const message = CosmosMessages.getMsgDepositProposal(1, cosmos.getAddress(childKey), [{ denom: "orai", amount: "1" }]);
+    const message = CosmosMessages.getMsgVoteProposal(1, cosmos.getAddress(childKey), 'Yes');
     const txBody = cosmos.constructTxBody({ messages: [message], memo: "foo bar" });
 
     try {

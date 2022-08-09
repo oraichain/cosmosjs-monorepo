@@ -1176,10 +1176,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@oraichain/cosmosjs@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.1.6.tgz#cde9118a3a81e08eacd7b00cfaaa11ea11333f53"
-  integrity sha512-HzEk4tqqz6X3xAI7g3S0MFpNFGaVdZ4Fa61Vu6rkUsErsVo5jf0xOslR3DLzGo0VcTQVZh6CIZaA7W6M5O1Olw==
+"@oraichain/cosmosjs@0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@oraichain/cosmosjs/-/cosmosjs-0.1.7.tgz#568cdb417eacce78a1a390414e9ec4286f7f31ee"
+  integrity sha512-PEpczOx2gNUob/XNRqJsikA7E3t+ySlZPzw7QguzAxUhfEDe1Ofe/t24+xIA6Jxpc2nb3uy7PHUfyuKlEhYieA==
   dependencies:
     axios "^0.27.2"
     bech32 "^1.1.3"
@@ -3673,7 +3673,7 @@ he@1.2.0:
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/hmac-drbg/-/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
-  integrity sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=
+  integrity sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==
   dependencies:
     hash.js "^1.0.3"
     minimalistic-assert "^1.0.0"
@@ -4751,7 +4751,7 @@ minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
 minimalistic-crypto-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/minimalistic-crypto-utils/-/minimalistic-crypto-utils-1.0.1.tgz#f6c00c1c0b082246e5c4d99dfb8c7c083b2b582a"
-  integrity sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
+  integrity sha512-JIYlbt6g8i5jKfJ3xz7rF0LXmv2TkDxBLUkiBeZ7bAx4GnnNMr8xFpGnOxn6GhTEHx3SjRrZEoU+j04prX1ktg==
 
 minimatch@3.0.4:
   version "3.0.4"

@@ -168,7 +168,7 @@ class CosmosMessages {
   };
 
   static getMsgDepositProposal = (proposal_id, depositor, amount) => {
-    const msgDeposit = new Cosmos.message.cosmos.gov.v1beta1.MsgDeposit({ proposal_id: new Long(proposal_id), depositor, amount })
+    const msgDeposit = new Cosmos.message.cosmos.gov.v1beta1.MsgDeposit({ proposal_id: Number(proposal_id), depositor, amount })
 
     return new Cosmos.message.google.protobuf.Any({
       type_url: '/cosmos.gov.v1beta1.MsgDeposit',
