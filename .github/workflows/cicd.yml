@@ -32,7 +32,7 @@ jobs:
             ${{ runner.os }}-yarn
       - name: Yarn
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn install --frozen-lockfile --prefer-offline --non-interactive --ignore-scripts
+        run: yarn install --prefer-offline --ignore-scripts
 
   cosmosjs-messages:
     runs-on: ubuntu-20.04
@@ -73,7 +73,7 @@ jobs:
             ${{ runner.os }}-yarn
       - name: Build Production
         working-directory: ./packages/cosmosjs-messages
-        run: yarn build
+        run: yarn install && yarn build
       - name: Copy typescript files into the bundle
         run: cp packages/cosmosjs-messages/src/index.d.ts packages/cosmosjs-messages/dist/
       - uses: actions/setup-node@v2
