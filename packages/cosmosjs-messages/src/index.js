@@ -111,7 +111,7 @@ class CosmosMessages {
   };
 
   static getMsgCreateValidator = (description, commission, delegator_address, min_self_delegation, pubkey, validator_address, value) => {
-    const msgCreateValidator =  new Cosmos.message.cosmos.staking.v1beta1.MsgCreateValidator({
+    const msgCreateValidator = new Cosmos.message.cosmos.staking.v1beta1.MsgCreateValidator({
       description,
       commission,
       delegator_address,
@@ -137,6 +137,26 @@ class CosmosMessages {
 
     const msgGov = new Cosmos.message.cosmos.gov.v1beta1.MsgSubmitProposal({
       content: msgChangeProposalAny,
+      proposer: proposer,
+      initial_deposit,
+    });
+
+    return new Cosmos.message.google.protobuf.Any({
+      type_url: "/cosmos.gov.v1beta1.MsgSubmitProposal",
+      value: Cosmos.message.cosmos.gov.v1beta1.MsgSubmitProposal.encode(msgGov).finish(),
+    });
+  };
+
+  static getMsgTextProposal = (proposer, initial_deposit, { title, description }) => {
+    const msgTextProposal = new Cosmos.message.cosmos.gov.v1beta1.TextProposal({ title, description });
+
+    const msgTextProposalAny = new Cosmos.message.google.protobuf.Any({
+      type_url: "/cosmos.gov.v1beta1.TextProposal",
+      value: Cosmos.message.cosmos.gov.v1beta1.TextProposal.encode(msgTextProposal).finish(),
+    });
+
+    const msgGov = new Cosmos.message.cosmos.gov.v1beta1.MsgSubmitProposal({
+      content: msgTextProposalAny,
       proposer: proposer,
       initial_deposit,
     });
