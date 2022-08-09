@@ -177,6 +177,7 @@ class CosmosMessages {
 
   };
 
+  // create msg vote
   static getMsgVoteProposal = (proposal_id, voter, option) => {
     const checkVoteOption = (option) => {
       switch (option) {
