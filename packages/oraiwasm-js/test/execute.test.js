@@ -4,8 +4,7 @@ import OraiwasmJs from '../src';
 
 dotenv.config();
 
-const cosmos = new OraiwasmJs('http://18.223.242.70:1317', 'Oraichain');
-cosmos.setBech32MainPrefix('orai');
+const cosmos = new OraiwasmJs('http://18.223.242.70:1317', 'Oraichain', 'orai');
 
 describe('execute', () => {
   it('should execute correctly with automatic gas estimation', async () => {
