@@ -1,8 +1,8 @@
 import Cosmos from '@oraichain/cosmosjs';
 
 class OraiwasmJs extends Cosmos {
-  constructor(url, chainId) {
-    super(url, chainId);
+  constructor(url, chainId, bech32MainPrefix, hdPath) {
+    super(url, chainId, bech32MainPrefix, hdPath);
     this.message = Cosmos.message;
   }
 

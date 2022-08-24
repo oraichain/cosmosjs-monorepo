@@ -8,7 +8,7 @@ export type RawInput = {
   sentFunds?: Coin[],
 }
 declare class OraiwasmJs extends Cosmos {
-  constructor(url: string, chainId: string);
+  constructor(url: string, chainId: string, bech32MainPrefix?: string, hdPath?: string);
   execute(params: { signerOrChild: bip32.BIP32Interface | OfflineDirectSigner, rawInputs: RawInput[], fees?: number | Coin[], gasLimits?: number | string, memo?: string | undefined, gasMultiplier?: number, timeoutHeight?: number, timeoutIntervalCheck?: number, broadcastMode?: BroadCastMode }): Promise<any>;
   getHandleMessage(contract: string, msg: any, sender: string, sentFunds: Coin[]): Cosmos.message.google.protobuf.Any;
   getHandleMessageSimulate(contract: string, msg: any, sender: string, sentFunds: Coin[]): Cosmos.message.google.protobuf.Any;
