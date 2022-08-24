@@ -123,7 +123,7 @@ jobs:
             ${{ runner.os }}-yarn
       - name: Build Production
         working-directory: ./packages/oraiwasm-js
-        run: yarn build
+        run: yarn install && yarn build
       - name: Copy typescript files into the bundle
         run: cp packages/oraiwasm-js/src/index.d.ts packages/oraiwasm-js/dist/
       - uses: actions/setup-node@v2

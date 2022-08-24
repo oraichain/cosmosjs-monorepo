@@ -2,7 +2,7 @@ const constants = {
     ACTION_TYPE: {
         DEPLOY: 'deploy',
         INSTANTIATE: 'instantiate',
-        EXECUTE: 'execute',
+        EXECUTE: 'execute'
     }
 }
 
